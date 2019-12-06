@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Categories;
+use App\Http\Requests\Categories\CreateCategoriesRequest;
+use App\Http\Requests\Categories\UpdateCategoriesRequest;
+
 
 class CategoriesController extends Controller
 {
@@ -33,16 +36,14 @@ class CategoriesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateCategoriesRequest $request)
     {
-        $this->validate($request,[
-            'name'  => 'required|unique:categories'
-        ]);
 
         Categories::create([
             'name'  => $request->name
         ]);
-
+         
+        session()->flash('success','Category Created');
         return redirect(route('category.index'));
     }
 
@@ -63,9 +64,9 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Categories $category)
     {
-        //
+        return view('categories.create')->with('category',$category);
     }
 
     /**
@@ -75,9 +76,13 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCategoriesRequest $request, Categories $category)
     {
-        //
+        $category->update([
+            'name' => $request->name
+        ]);
+        session()->flash('success','Category Updated');
+        return redirect( route('category.index') );
     }
 
     /**
@@ -86,8 +91,12 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Categories $category)
     {
-        //
+        $category->delete();
+
+        session()->flash('success','Category Deleted Successfully');
+
+        return redirect(route('category.index'));
     }
 }
