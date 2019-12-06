@@ -1,0 +1,14 @@
+git config core.fileMode false
+npm install
+npm install node-sass --nodedir=/usr/local
+npm install laravel-mix --save /* install all required modules*/
+sudo npm install webpack --save
+npm run dev
+Add:
+in: AppServiceProvider.php
+    use Illuminate\Support\Facades\Schema;
+
+    public function boot()
+    {
+        Schema::defaultStringLength(191);
+    }
