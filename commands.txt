@@ -12,3 +12,13 @@ in: AppServiceProvider.php
     {
         Schema::defaultStringLength(191);
     }
+
+09 dec 2019
+in .env
+ set FILESYSTEM_DRIVER = public
+ to allow media to be visible in browser else check filesystem.php file
+
+
+For LF Crlf
+window: $ git config --global core.autocrlf true
+linux : $ git config --global core.autocrlf input
