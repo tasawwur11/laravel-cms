@@ -22,3 +22,5 @@ in .env
 For LF Crlf
 window: $ git config --global core.autocrlf true
 linux : $ git config --global core.autocrlf input
+
+php artisan storage:link    

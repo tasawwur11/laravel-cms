@@ -26,11 +26,15 @@
             </div>
             <div class="form-group">
                 <label for="description">Description</label>
-                <textarea type="text" id="description" name="description" placeholder="Post Description" class="form-control"></textarea>
+                <textarea type="text" id="description" name="description" placeholder="Post Description" class="form-control">{{ isset($post) ? $post->description:'' }}</textarea>
             </div>
             <div class="form-group">
                 <label for="content">Content</label>
-                <textarea type="text" id="content" name="content" placeholder="Post Content" class="form-control"></textarea>
+                <textarea type="text" id="content" name="content" placeholder="Post Content" class="form-control">{{ isset($post) ? $post->content:'' }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="published_at">Published At</label>
+                <input type="date" id="published_at" name="published_at" class="form-control" value="{{ isset($post) ? $post->published_at:'' }}">
             </div>
             <div class="form-group">
                 <label for="image">Image</label>

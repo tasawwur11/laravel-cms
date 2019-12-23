@@ -15,7 +15,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        return view('posts.index');
+        return view('posts.index')->with('posts',Post::all());
     }
 
     /**
@@ -36,13 +36,14 @@ class PostsController extends Controller
      */
     public function store(CreatePostRequest $request)
     {
-        $image = $request->image->store('posts');
+        $image = $request->image->store('post');
 
         Post::create([
             'title'         => $request->title,
             'description'   => $request->description,
             'content'       => $request->content,
-            'image'         => $image
+            'image'         => $image,
+            'published_at'  => $request->published_at
         ]);
 
         session()->flash('success', 'Post Created Successfully');
@@ -67,9 +68,9 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        //
+        return view('posts.create')->with('post',$post);
     }
 
     /**
@@ -90,8 +91,12 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        $post->delete();
+
+        session()->flash('success', 'Post Trashed Successfully');
+
+        return redirect(route('posts.index'));
     }
 }
