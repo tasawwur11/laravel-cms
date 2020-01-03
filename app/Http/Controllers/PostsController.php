@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Posts\CreatePostRequest;
 use App\Post;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\Posts\updatePostRequest;
+
 
 class PostsController extends Controller
 {
@@ -81,9 +83,29 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(updatePostRequest $request,Post $post)
     {
-        //
+        $data = $request->only(['title','description','content','published_at']);
+        //if new image
+        if($request->hasFile('image'))
+        {
+            //upload it
+            $image = $request->image->store('post');
+            //delete previous one
+            Storage::delete($post->image);
+
+            $data['image'] = $image;
+        }
+
+        //update attribute
+        $post->update($data);
+
+        //flash message
+        session()->flash('success', 'Post Updated Successfully');
+
+        //redirect
+
+        return redirect(route('posts.index'));
     }
 
     /**
