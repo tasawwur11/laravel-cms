@@ -30,11 +30,13 @@
             </div>
             <div class="form-group">
                 <label for="content">Content</label>
-                <textarea type="text" id="content" name="content" placeholder="Post Content" class="form-control">{{ isset($post) ? $post->content:'' }}</textarea>
+                <input id="content" type="hidden" name="content">
+                <trix-editor input="content">{{ isset($post) ? $post->content:'' }}</trix-editor>
+                <!-- <textarea type="text" id="content" name="content" placeholder="Post Content" class="form-control">{{ isset($post) ? $post->content:'' }}</textarea> -->
             </div>
             <div class="form-group">
                 <label for="published_at">Published At</label>
-                <input type="date" id="published_at" name="published_at" class="form-control" value="{{ isset($post) ? $post->published_at:'' }}">
+                <input type="text" id="published_at" name="published_at" class="form-control" value="{{ isset($post) ? $post->published_at:'' }}">
             </div>
             <div class="form-group">
                 <label for="image">Image</label>
@@ -46,4 +48,19 @@
         </form>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.1/trix.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+flatpickr('#published_at',{
+    enableTime: true
+});
+</script>
+@endsection
+
+@section('css')
+<link href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.1/trix.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 @endsection
